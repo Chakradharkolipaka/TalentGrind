@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn a Skill - TalentGrind</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="learnskill.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">TalentGrind</div>
+        <nav>
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="teachskill.html">Teach Skills</a></li>
+                <li><a href="#">Leaderboard</a></li>
+                
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="learn-header">
+            <h2>Learn a Skill</h2>
+            <p>Browse available skills, spend SkillCoins, and start learning!</p>
+            <input type="text" id="search-bar" placeholder="Search for skills...">
+        </section>
+
+        <section class="skill-list" id="skill-container">
+            <!-- Skills will be dynamically loaded here -->
+        </section>
+    </main>
+
+    <script>
+        let userSkillCoins = 120; // Example user balance
+
+        const skills = [
+            { name: "Python Programming", description: "Learn the basics of Python.", video: "python.mp4", cost: 20 },
+            { name: "Web Development", description: "Build modern websites using HTML, CSS, and JavaScript.", video: "webdev.mp4", cost: 30 },
+            { name: "Data Science", description: "Introduction to data analysis and machine learning.", video: "datascience.mp4", cost: 40 }
+        ];
+
+        function displaySkills(skillsToShow) {
+            const container = document.getElementById("skill-container");
+            container.innerHTML = "";
+
+            skillsToShow.forEach(skill => {
+                const skillCard = document.createElement("div");
+                skillCard.classList.add("skill-card");
+                skillCard.innerHTML = `
+                    <h4>${skill.name}</h4>
+                    <p>${skill.description}</p>
+                    <p><strong>Cost:</strong> ${skill.cost} SkillCoins</p>
+                    <button class="btn spend-skillcoins" data-cost="${skill.cost}" data-video="${skill.video}">Spend ${skill.cost} SkillCoins</button>
+                `;
+                container.appendChild(skillCard);
+            });
+
+            document.querySelectorAll(".spend-skillcoins").forEach(button => {
+                button.addEventListener("click", function () {
+                    let cost = parseInt(this.getAttribute("data-cost"));
+                    let video = this.getAttribute("data-video");
+
+                    if (userSkillCoins >= cost) {
+                        userSkillCoins -= cost;
+                        alert("Access Granted! Remaining SkillCoins: " + userSkillCoins);
+                        window.location.href = video; // Redirect to the video file
+                    } else {
+                        alert("Not enough SkillCoins to access this skill.");
+                    }
+                });
+            });
+        }
+
+        document.getElementById("search-bar").addEventListener("input", function () {
+            const query = this.value.toLowerCase();
+            const filteredSkills = skills.filter(skill => skill.name.toLowerCase().includes(query));
+            displaySkills(filteredSkills);
+        });
+
+        displaySkills(skills);
+    </script>
+
+</body>
+</html>

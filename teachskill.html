@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teach a Skill - TalentGrind</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="teach skill.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">TalentGrind</div>
+        <nav>
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="#">Leaderboard</a></li>
+                
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="teach-header">
+            <h2>Teach a Skill</h2>
+            <p>Share your knowledge and earn SkillCoins by teaching a skill.</p>
+        </section>
+
+        <!-- Teach Skill Form -->
+        <section class="teach-skill-form">
+            <h3>Submit Your Skill</h3>
+            <form id="teachSkillForm">
+                <label for="skillName">Skill Name:</label>
+                <input type="text" id="skillName" required>
+
+                <label for="category">Skill Category:</label>
+                <select id="category">
+                    <option>AI/ML</option>
+                    <option>Web Development</option>
+                    <option>Data Science</option>
+                    <option>UI/UX</option>
+                    <option>Business</option>
+                    <option>Other</option>
+                </select>
+
+                <label for="level">Skill Level:</label>
+                <select id="level">
+                    <option>Beginner</option>
+                    <option>Intermediate</option>
+                    <option>Advanced</option>
+                </select>
+
+                <label for="description">Description:</label>
+                <textarea id="description" rows="3" required></textarea>
+
+                <label for="availability">Availability:</label>
+                <input type="text" id="availability" placeholder="E.g., Monday to Friday, 6 PM - 8 PM" required>
+
+
+                <label for="skillCoins">Charge (SkillCoins):</label>
+                <input type="number" id="skillCoins" required min="10">
+
+                <label for="uploadVideo">Upload Video (Optional):</label>
+                <input type="file" id="uploadVideo" accept="video/*">
+
+                <label for="uploadPDF">Upload PDF (Optional):</label>
+                <input type="file" id="uploadPDF" accept="application/pdf">
+
+                <button type="submit" class="btn">Submit Skill</button>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        document.getElementById("teachSkillForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            alert("Skill Submitted Successfully!");
+        });
+    </script>
+
+</body>
+</html>

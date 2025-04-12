@@ -1,3 +1,4 @@
+<!-- C:\TalentGrind\learnskill.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,53 +35,64 @@
     </main>
 
     <script>
-        let userSkillCoins = 120; // Example user balance
+document.addEventListener("DOMContentLoaded", () => {
+    fetchSkills(""); // Fetch all skills initially
+});
 
-        const skills = [
-            { name: "Python Programming", description: "Learn the basics of Python.", video: "python.mp4", cost: 20 },
-            { name: "Web Development", description: "Build modern websites using HTML, CSS, and JavaScript.", video: "webdev.mp4", cost: 30 },
-            { name: "Data Science", description: "Introduction to data analysis and machine learning.", video: "datascience.mp4", cost: 40 }
-        ];
+// ✅ Function to Fetch Skills with Search Query
+async function fetchSkills(query) {
+    try {
+        let url = `http://localhost:5000/api/skills`; 
+        if (query) url += `?search=${encodeURIComponent(query)}`; // Send search query
 
-        function displaySkills(skillsToShow) {
-            const container = document.getElementById("skill-container");
-            container.innerHTML = "";
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
 
-            skillsToShow.forEach(skill => {
-                const skillCard = document.createElement("div");
-                skillCard.classList.add("skill-card");
-                skillCard.innerHTML = `
-                    <h4>${skill.name}</h4>
-                    <p>${skill.description}</p>
-                    <p><strong>Cost:</strong> ${skill.cost} SkillCoins</p>
-                    <button class="btn spend-skillcoins" data-cost="${skill.cost}" data-video="${skill.video}">Spend ${skill.cost} SkillCoins</button>
-                `;
-                container.appendChild(skillCard);
-            });
+        const skills = await response.json();
+        console.log("Fetched Skills:", skills); // ✅ Debugging
 
-            document.querySelectorAll(".spend-skillcoins").forEach(button => {
-                button.addEventListener("click", function () {
-                    let cost = parseInt(this.getAttribute("data-cost"));
-                    let video = this.getAttribute("data-video");
+        displaySkills(skills); // Display skills in the frontend
+    } catch (error) {
+        console.error("❌ Error fetching skills:", error);
+        document.getElementById("skill-container").innerHTML = "<p>❌ Error loading skills.</p>";
+    }
+}
 
-                    if (userSkillCoins >= cost) {
-                        userSkillCoins -= cost;
-                        alert("Access Granted! Remaining SkillCoins: " + userSkillCoins);
-                        window.location.href = video; // Redirect to the video file
-                    } else {
-                        alert("Not enough SkillCoins to access this skill.");
-                    }
-                });
-            });
-        }
+// ✅ Function to Display Skills in Frontend
+function displaySkills(skills) {
+    const container = document.getElementById("skill-container");
+    container.innerHTML = "";
 
-        document.getElementById("search-bar").addEventListener("input", function () {
-            const query = this.value.toLowerCase();
-            const filteredSkills = skills.filter(skill => skill.name.toLowerCase().includes(query));
-            displaySkills(filteredSkills);
-        });
+    if (skills.length === 0) {
+        container.innerHTML = "<p>No skills found.</p>";
+        return;
+    }
 
-        displaySkills(skills);
+skills.forEach(skill => {
+    const skillCard = document.createElement("div");
+    skillCard.classList.add("skill-card");
+
+    skillCard.innerHTML = `
+        <h4>${skill.skillName}</h4>
+        <p>${skill.description}</p>
+        <p><strong>Cost:</strong> ${skill.skillCoins} SkillCoins</p>
+        <video controls width="300">
+            <source src="http://localhost:5000/api/skills/video/${skill._id}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <button class="btn spend-skillcoins" data-cost="${skill.skillCoins}">Spend ${skill.skillCoins} SkillCoins</button>
+    `;
+
+        container.appendChild(skillCard);
+    });
+}
+
+// ✅ Search Functionality - Fetch skills based on input
+document.getElementById("search-bar").addEventListener("input", function () {
+    const query = this.value.trim();
+    fetchSkills(query); // Call API with search query
+});
+
     </script>
 
 </body>

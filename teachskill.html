@@ -1,3 +1,4 @@
+<!-- C:\TalentGrind\teachskill.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,9 +28,9 @@
         </section>
 
         <!-- Teach Skill Form -->
-        <section class="teach-skill-form">
+        <section class="teach-skill-form" >
             <h3>Submit Your Skill</h3>
-            <form id="teachSkillForm">
+            <form id="teachSkillForm" enctype="multipart/form-data" >
                 <label for="skillName">Skill Name:</label>
                 <input type="text" id="skillName" required>
 
@@ -60,8 +61,11 @@
                 <label for="skillCoins">Charge (SkillCoins):</label>
                 <input type="number" id="skillCoins" required min="10">
 
-                <label for="uploadVideo">Upload Video (Optional):</label>
+                <label for="uploadVideo">Upload Demo Video (Optional):</label>
                 <input type="file" id="uploadVideo" accept="video/*">
+
+                <label for="uploadVideo">Upload Video (Optional):</label>
+                <input type="file" name="video" id="videoUrl" accept="video/mp4" required>
 
                 <label for="uploadPDF">Upload PDF (Optional):</label>
                 <input type="file" id="uploadPDF" accept="application/pdf">
@@ -71,12 +75,7 @@
         </section>
     </main>
 
-    <script>
-        document.getElementById("teachSkillForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            alert("Skill Submitted Successfully!");
-        });
-    </script>
+    <script src="teachskill.js"></script>
 
 </body>
 </html>

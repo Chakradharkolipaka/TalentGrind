@@ -159,25 +159,6 @@
             <input type="text" id="email" placeholder="Email ID">
         </div>
     </div>
-    <script>
-            async function loadUserProfile() {
-            const userId = localStorage.getItem("userId"); // Get stored user ID
-            if (!userId) {
-                alert("User not found! Redirecting to sign-up...");
-                window.location.href = "signup.html"; // Redirect if no user ID found
-                return;
-            }
-
-            const response = await fetch(`http://localhost:5000/api/user/${userId}`);
-            const userData = await response.json();
-            
-            document.getElementById("profile-name").innerText = userData.name;
-            document.getElementById("profile-bio").innerText = `${userData.age} | ${userData.gender} | ${userData.email}`;
-        }
-
-        // 📌 Load profile on page load
-        document.addEventListener("DOMContentLoaded", loadUserProfile);
-
-    </script>
+    <script src="dashboard.js"></script>
 </body>
 </html>

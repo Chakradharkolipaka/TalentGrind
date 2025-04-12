@@ -4,13 +4,15 @@ const mongoose = require("mongoose");
 const userDb = mongoose.connection.useDb("TalentGrind");
 
 const UserSchema = new mongoose.Schema({
-    name: String,
+    name: { type: String, required: true },
     gender: String,
     age: Number,
     mobile_number: String,
-    email: String,
+    email:{ type: String, required: true, unique: true },
     username: String,
-    password: String
+    password: { type: String, required: true },
+    avatar: { type: String, default: "" },
+    skillCoins: { type: Number, default: 100 }
 }, { collection: "user Authentication" }); // ✅ Use "user Authentication" collection
 
 const User = userDb.model("User", UserSchema);
